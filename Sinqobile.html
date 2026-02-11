@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sinqobile 💜</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+    background: linear-gradient(-45deg, #a855f7, #9333ea, #c084fc, #6b21a8);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.container {
+    margin-top: 20vh;
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+}
+
+.glow {
+    font-size: 45px;
+    text-shadow: 0 0 15px #fff, 0 0 30px #c084fc;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#yesBtn {
+    background: #22c55e;
+    color: white;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #22c55e;
+}
+
+#noBtn {
+    background: #ef4444;
+    color: white;
+    position: absolute;
+}
+
+.hidden {
+    display: none;
+}
+
+#celebration {
+    margin-top: 20px;
+    font-size: 22px;
+    animation: fadeIn 1.5s ease-in;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 24px;
+    animation: floatUp 4s linear infinite;
+}
+
+@keyframes floatUp {
+    from {transform: translateY(0); opacity:1;}
+    to {transform: translateY(-800px); opacity:0;}
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+    <h1 class="glow">Sinqobile 💜</h1>
+    <h2>Will you be my Valentine? 🥺✨</h2>
+
+    <button id="yesBtn">YES 💜</button>
+    <button id="noBtn">No 🙈</button>
+
+    <div id="celebration" class="hidden">
+        <p><strong>Life is better with you in it. 💜<br>
+        Happy Valentine’s Day to my favorite person.</strong></p>
+
+        <p>
+        You make everything brighter, softer, and happier just by being you.
+        I’m really grateful for you.
+        </p>
+
+        <p><strong>P.S. Ungazongigibela ekhanda 😅💜</strong></p>
+    </div>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const celebration = document.getElementById("celebration");
+
+/* Running NO button */
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+/* YES click */
+yesBtn.addEventListener("click", () => {
+    celebration.classList.remove("hidden");
+    startConfetti();
+    startHearts();
+});
+
+/* Confetti */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let pieces = [];
+
+function startConfetti() {
+    for (let i = 0; i < 150; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 8 + 2,
+            speedY: Math.random() * 3 + 2,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`
+        });
+    }
+    animate();
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+        p.y += p.speedY;
+        if (p.y > canvas.height) p.y = 0;
+    });
+    requestAnimationFrame(animate);
+}
+
+/* Floating hearts */
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💜";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = Math.random() * 20 + 20 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
